@@ -1,2 +1,2 @@
 # Redux-Learning
-Learn React Redux using create-react-app, Redux Toolkit and TypeScript
+Learn React Redux use vanilla javascript with some mini project
