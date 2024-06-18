@@ -1,5 +1,7 @@
 const Hobby = require('../models/Hobby');
 
+// @desc Get all hobbies
+// @route GET /v1/hobbies
 const getHobbies = async (req, res) => {
     try {
         const page = parseInt(req.query.page || 1);
@@ -32,6 +34,8 @@ const getHobbies = async (req, res) => {
     }
 };
 
+// @desc Get hobby by id
+// @route GET /v1/hobbies/:id
 const getHobbyById = async (req, res) => {
     try {
         const id = req.params.id;
@@ -59,6 +63,8 @@ const getHobbyById = async (req, res) => {
     }
 }
 
+// @desc Create new hobby
+// @route POST /v1/hobbies
 const createHobby = async (req, res) => {
     try {
         const { title, description, } = req.body;
@@ -86,6 +92,8 @@ const createHobby = async (req, res) => {
     }
 }
 
+// @desc Update hobby
+// @route PUT /v1/hobbies/:id
 const updateHobby = async (req, res) => {
     try {
         const id = req.params.id;
@@ -125,6 +133,8 @@ const updateHobby = async (req, res) => {
     }
 }
 
+// @desc Delete hobby
+// @route DELETE /v1/hobbies/:id
 const deleteHobby = async (req, res) => {
   try {
     const deletedHobby = await Hobby.findByIdAndDelete(req.params.id);
