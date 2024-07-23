@@ -1,14 +1,19 @@
 # REDUX LEARNING
 
-**See workflow here:**
+**_Here's Redux workflow:_**
+
 ![redux-workflow](https://redux.js.org/assets/images/ReduxDataFlowDiagram-49fa8c3968371d9ef6f2a1486bd40a26.gif)
 
 ## Khái niệm:
 
 - **`Redux is predictable state container for Javascript app`**
-- Là một thư viện JS quản lý trạng thái có thể dự đoán được
-- Store: Kho lưu trữ các state (trạng thái) và reducer. Stpre được tạo ra thông qua việc gọi hàm createStore() của redux và truyền vào reducer (Ex: `const store = createStore(reducer)`)
-- State: Trạng thái. Read-only, chỉ có thể thay đổi khi một action được dispath, có thể được lấy thông qua getState() method của store (Ex: `store.getState()`)
+
+- Là một thư viện JS quản lý trạng thái có thể dự đoán được.
+
+- Store: Kho lưu trữ các state (trạng thái) và reducer. Stpre được tạo ra thông qua việc gọi hàm createStore() của redux và truyền vào reducer (Ex: `const store = createStore(reducer)`).
+
+- State: Trạng thái. Read-only, chỉ có thể thay đổi khi một action được dispath, có thể được lấy thông qua getState() method của store (Ex: `store.getState()`).
+
 - Reducer: Một hàm nhận vào state và action. Khi nhận vào một state, cần có trạng thái khởi tạo ban đầu cho nó. Ví dụ:
 
   ```javascript
@@ -28,6 +33,7 @@
   **Lưu ý**: Khi tạo ra một reducer, lưu ý 2 việc cần nhớ: _Khởi tạo giá trị ban đầu_ và _Trả về giá trị ban đầu trong default của switch_
 
 - Action: Đơn giản thì nó là một object chứa 2 trường là type và payload. Khi được một action được dispath, nó sẽ dựa vào type đã được định nghĩa ở reducer để thực hiện một hành động với payload và state. Ví dụ khai báo action:
+
   ```javascript
   const addAction = (payload) => {
       return {
@@ -36,7 +42,8 @@
       }
   }
   ```
-- Dispath: Gọi hàm này thông qua store để dispath một action (Ex: `dispath(addAction(10))`)
+
+- Dispath: Gọi hàm này thông qua store để dispath một action (Ex: `dispath(addAction(10))`).
 
 ## Advanced Topics:
 
@@ -66,9 +73,11 @@
 - Các bước để cấu hình redux:
 
   - Set up store:
+
     1. Set up các reducers và root reducer
     2. Cài đặt các action creators
     3. Set up store
+
   - Set up Provider: (cho phép store có thể được truy cập từ bất kỳ component nào => phải set up ở tầng cao nhất của app).
 
   ```Javascript
@@ -82,9 +91,9 @@
 
 - **Lưu ý**:
 
-  - Hạn chế kết nối với store từ App mà chỉ nên kế nối từ component sử dụng nó (các logic components)
+  - Hạn chế kết nối với store từ App mà chỉ nên kế nối từ component sử dụng nó (các logic components).
 
-  - Khi sử dụng useSelector(), không nên trả ra một object trực tiếp mà nên tách ra thành từng state riêng biệt. Nguyên do: Khi có sự thay đổi trong store, useSeletor sẽ so sánh (===) xem state trước và state sau nó có khác nhau không, nếu khác nó sẽ re-render; vì thế thi sử dụng object, nó sẽ so sánh tham chiếu, từ đó nó thấy rằng 2 object này là khác nhau về tham chiếu (mặc dù không có sự khác nhau trong thuộc tính) và vì có sự khác nhau nên nó sẽ re-render
+  - Khi sử dụng useSelector(), không nên trả ra một object trực tiếp mà nên tách ra thành từng state riêng biệt. Nguyên do: Khi có sự thay đổi trong store, useSeletor sẽ so sánh (===) xem state trước và state sau nó có khác nhau không, nếu khác nó sẽ re-render; vì thế thi sử dụng object, nó sẽ so sánh tham chiếu, từ đó nó thấy rằng 2 object này là khác nhau về tham chiếu (mặc dù không có sự khác nhau trong thuộc tính) và vì có sự khác nhau nên nó sẽ re-render.
 
 ### Redux Toolkit
 
@@ -92,10 +101,10 @@
 
 - Redux Toolkit gồm những gì?
 
-  - configureStore():
+  - configureStore(): Tạo và cấu hình một store với những lợi ích sau:
 
     - Có sẵn Redux DevTools
-    - Có sẳn redux-thunk để thực hiện các async actions
+    - Có sẵn redux-thunk, để thực hiện các async actions
 
   - createReducer():
 
@@ -229,7 +238,7 @@
     );
     ```
 
-    ```js
+    ```jsx
     // 4. Using redux in component
     // src/componets/Todo/index.jsx
     function Todo() {
@@ -244,7 +253,7 @@
       return (
         <ul>
           {todoList.map((todo, idx) => (
-            <li key={todo.id} onClick{() => handleTodoClick(todo, idx)}>
+            <li key={idx} onClick{() => handleTodoClick(todo, idx)}>
               {todo.title}
             </li>
           ))}
