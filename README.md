@@ -182,9 +182,11 @@
       // reducers: An object of "case reducers". Key names will be used to generate actions.
       reducers: {
         addPost(state, action) {
+          // Lưu ý quan trọng: Chỗ này không được return
           state.push(action.payload);
         },
         removePost(state, action) {
+          // Lưu ý quan trọng: Chỗ này không được return. Cái gì quan trọng nhắc lại 2 lần
           state.splice(action.payload, 1);
         },
       },
@@ -260,4 +262,60 @@
         </ul>
       )
     }
+    ```
+
+  - createAsyncThunk():
+
+    - Dùng để thực hiện một tác vụ bất động bộ, ví dụ: call API
+
+    - Nhận vào 2 tham số:
+
+      1. Tên của action
+      2. Một async function chứa 2 tham số: data muốn truyền vào (để sử dụng...) và `thunkApi`, là một tham số có sẵn.
+
+    - Sau khi gọi hàm createAsyncThunk để fetch data thì cần thêm extraReducers vào createSlice(), nó sẽ nhận một callback funtion với tham số là builder, tại đây nó sẽ thực hiện thêm các `case` (`fullfilled`, `pending`, `rejected`) để xử lý các trạng thái (`hoàn tất`, `đang xử lý`, `lỗi`)
+
+    - Ví dụ:
+
+    ```js
+    export const getAllProducts = createAsyncThunk(
+      'products/getAllProducts',
+      async (params = {}, thunkAPI) => {
+        try {
+          const { name = '', category = '', page = 1, limit = 10 } = params;
+
+          const query = new URLSearchParams({
+            name,
+            category,
+            page,
+            limit,
+          }).toString();
+
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/products?${query}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch products');
+          }
+
+          const data = await response.json();
+
+          if (data.error) {
+            thunkAPI.rejectWithValue(data.error);
+          }
+
+          return data.data;
+        } catch (error) {
+          console.log(error);
+          thunkAPI.rejectWithValue(error.message);
+        }
+      }
+    );
     ```
